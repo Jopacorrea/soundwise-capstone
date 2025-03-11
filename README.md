@@ -46,12 +46,10 @@ In other words, anyone who uses a music streaming service and values playlist co
 
 ### Mockups
 
-    Wireframes to be created in Figma
-    Home Page: A login screen with buttons for Spotify and Apple Music authentication.
-    Dashboard: Displays a list of available playlists from both services with a "Transfer" button next to each.
-    Transfer Page: Shows the playlist being transferred with a progress bar to indicate status.
-    History Page: Displays past transfer attempts and their results (success or failure).
-
+<img src="./README assets/SoundWise_Homepage.png">
+<img src="./README assets/SoundWise_Auth.png">
+<img src="./README assets/SoundWise_preview.png">
+<img src="./README assets/SoundWise_Transfer.png">
 
 ### Data
 **User Data:** Stores authentication tokens for Spotify and Apple Music accounts.
@@ -113,4 +111,4 @@ In other words, anyone who uses a music streaming service and values playlist co
 
 **Mobile app version:** Create a mobile-responsive version of the app for ease of use on phones and tablets.
 
-<img src="./README/SoundWise_Banner.png">
+<img src="./README assets/SoundWise_Banner.png" width="500">
