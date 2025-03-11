@@ -1,5 +1,5 @@
 # SoundWise Music Transfer  App
-<img src="./README/SoundWise_Logo.png" width="350">
+<img src="./README assets/SoundWise_Logo.png" width="350">
 
 ## Overview
 Music streaming has become an integral part of our lives in today’s digital age. Whether we're commuting, working out, or simply relaxing at home, music is a constant companion. With the growing number of music streaming platforms, it's essential to have a solution that seamlessly transfers your playlists and libraries between services. That’s where SoundWise comes in.
