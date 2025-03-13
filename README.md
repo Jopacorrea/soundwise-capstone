@@ -85,13 +85,13 @@ _Sprint Breakdown (2 Weeks)_
 
 ### Week 1
 
-- [ ] **Day 1** _Research Spotify and Apple Music APIs, set up project repository_
+- [x] **Day 1** _Research Spotify and Apple Music APIs, set up project repository_
 
-- [ ] **Day 2** _Set up backend with Express and authentication (OAuth 2.0)_
+- [x] **Day 2** _Set up backend with Express and authentication (OAuth 2.0)_
 
-- [ ] **Day 3** _Implement API authentication and token management_
+- [x] **Day 3** _Implement API authentication and token management_
 
-- [ ] **Day 4** _Fetch user playlists from Spotify and Apple Music_
+- [/] **Day 4** _Fetch user playlists from Spotify✅ and Apple Music(Frontend MusicKit JS)_
 
 - [ ] **Day 5** _Set up frontend UI structure and routing_
 
