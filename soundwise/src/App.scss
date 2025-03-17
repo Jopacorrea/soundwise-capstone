@@ -1,8 +1,21 @@
 //partials
-
+@use "./Style/Partials/screen-breakpoints" as *;
+@use "./Style/Partials/fonts" as *;
+@use "./Style/Partials/font-mixins" as *;
 //Global
 body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(123, 16, 236),
+    rgba(0, 0, 0)
+  );
+  height: 100vh;
+  color: white;
+}
+
+h1 {
+  @include font-title;
 }
