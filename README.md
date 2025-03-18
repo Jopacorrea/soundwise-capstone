@@ -69,7 +69,7 @@ In other words, anyone who uses a music streaming service and values playlist co
 
 ### Endpoints
 
-    POST /auth/login: Authenticate user
+    POST /auth: Authenticate user
 
     GET /playlists: Retrieve user playlists
 
