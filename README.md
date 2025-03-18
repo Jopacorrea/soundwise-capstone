@@ -91,13 +91,13 @@ _Sprint Breakdown (2 Weeks)_
 
 - [x] **Day 3** _Implement API authentication and token management_
 
-- [x] **Day 4** _Fetch user playlists from Spotify✅ and Apple Music(Frontend MusicKit JS ⌛)_
+- [x] **Day 4** _Fetch user playlists from Spotify✅ and Apple Music(Frontend MusicKit JS ✅)_
 
-- [ ] **Day 5** _Set up frontend UI structure and routing_
+- [x] **Day 5** _Set up frontend UI structure and routing_
 
-- [ ] **Day 6** _Display playlists in the UI and connect to backend_
+- [x] **Day 6** _Display playlists in the UI and connect to backend_
 
-- [ ] **Day 7** _Review progress, debug authentication & playlist retrieval_
+- [x] **Day 7** _Review progress, debug authentication & playlist retrieval_
 
 ### Week 2
 
