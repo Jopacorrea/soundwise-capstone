@@ -1,5 +1,5 @@
 // Context/AuthContext.jsx
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -11,17 +11,17 @@ export const AuthProvider = ({ children }) => {
 
   // Load tokens from localStorage when the app starts
   useEffect(() => {
-    const spotToken = localStorage.getItem('spotifyToken');
-    const appleToken = localStorage.getItem('appleMusicToken');
-    
+    const spotToken = localStorage.getItem("spotifyToken");
+    const appleToken = localStorage.getItem("appleMusicToken");
+
     if (spotToken) {
       setSpotifyToken(spotToken);
     }
-    
+
     if (appleToken) {
       setAppleMusicToken(appleToken);
     }
-    
+
     setLoading(false);
   }, []);
 
@@ -48,10 +48,10 @@ export const AuthProvider = ({ children }) => {
   // Save Spotify token to localStorage and context
   const saveSpotifyToken = (token) => {
     if (token) {
-      localStorage.setItem('spotifyToken', token);
+      localStorage.setItem("spotifyToken", token);
       setSpotifyToken(token);
     } else {
-      localStorage.removeItem('spotifyToken');
+      localStorage.removeItem("spotifyToken");
       setSpotifyToken(null);
     }
   };
@@ -59,18 +59,18 @@ export const AuthProvider = ({ children }) => {
   // Save Apple Music token to localStorage and context
   const saveAppleMusicToken = (token) => {
     if (token) {
-      localStorage.setItem('appleMusicToken', token);
+      localStorage.setItem("appleMusicToken", token);
       setAppleMusicToken(token);
     } else {
-      localStorage.removeItem('appleMusicToken');
+      localStorage.removeItem("appleMusicToken");
       setAppleMusicToken(null);
     }
   };
 
   // Clear all tokens (for logout)
   const clearAllTokens = () => {
-    localStorage.removeItem('spotifyToken');
-    localStorage.removeItem('appleMusicToken');
+    localStorage.removeItem("spotifyToken");
+    localStorage.removeItem("appleMusicToken");
     setSpotifyToken(null);
     setAppleMusicToken(null);
   };
@@ -81,16 +81,16 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider 
-      value={{ 
-        spotifyToken, 
+    <AuthContext.Provider
+      value={{
+        spotifyToken,
         appleMusicToken,
         musicKitReady,
-        loading, 
+        loading,
         saveSpotifyToken,
         saveAppleMusicToken,
         clearAllTokens,
-        isFullyAuthenticated
+        isFullyAuthenticated,
       }}
     >
       {children}

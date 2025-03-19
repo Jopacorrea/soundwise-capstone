@@ -2,39 +2,58 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.jsx";
-
 const Playlists = () => {
   const { spotifyToken } = useAuth();
   const [spotifyPlaylists, setSpotifyPlaylists] = useState([]);
-  const [transferStatus, setTransferStatus] = useState(""); // Define transfer status state
+  const [loading, setLoading] = useState(true);
+  const [transferStatus, setTransferStatus] = useState("");
   const [selectedPlaylistTracks, setSelectedPlaylistTracks] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch Spotify Playlists
+  // Fetch Spotify Playlists with pagination
   useEffect(() => {
-    const fetchSpotifyPlaylists = async () => {
+    const fetchAllSpotifyPlaylists = async () => {
+      setLoading(true);
       try {
-        const response = await fetch(
-          "http://localhost:8888/spotify/playlists",
-          {
+        let allPlaylists = [];
+        let nextUrl =
+          "http://localhost:8888/spotify/playlists?limit=50&offset=0";
+
+        while (nextUrl) {
+          console.log("Fetching playlists from:", nextUrl);
+          const response = await fetch(nextUrl, {
             headers: {
               Authorization: `Bearer ${spotifyToken}`,
             },
-          }
-        );
-        const data = await response.json();
+          });
 
-        if (data && Array.isArray(data.items)) {
-          setSpotifyPlaylists(data.items);
-        } else {
-          console.error("Error: Invalid playlist data format.");
+          const data = await response.json();
+
+          if (data && Array.isArray(data.items)) {
+            allPlaylists = [...allPlaylists, ...data.items];
+            console.log(
+              `Fetched ${data.items.length} playlists, total: ${allPlaylists.length}`
+            );
+
+            // Check if there's a next page
+            nextUrl = data.next
+              ? `http://localhost:8888/spotify/playlists?limit=50&offset=${allPlaylists.length}`
+              : null;
+          } else {
+            console.error("Error: Invalid playlist data format.");
+            nextUrl = null;
+          }
         }
+
+        setSpotifyPlaylists(allPlaylists);
       } catch (error) {
         console.error("Error fetching playlists:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchSpotifyPlaylists();
+    fetchAllSpotifyPlaylists();
   }, [spotifyToken]);
 
   // Fetch tracks for the selected playlist

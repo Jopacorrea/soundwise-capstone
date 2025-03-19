@@ -1,45 +1,56 @@
-// Pages/Transfer.jsx
-// npm libraries
+// // Pages/Transfer.jsx
+//npm libraries
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.jsx";
+import axios from "axios";
 
 const Transfer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { playlist } = location.state || {};
   const { spotifyToken } = useAuth();
+
   const [tracks, setTracks] = useState([]);
   const [transferStatus, setTransferStatus] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [tracksLoading, setTracksLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [transferResult, setTransferResult] = useState(null);
 
-  // Check if we have all required data
+  // Check Spotify authentication
   useEffect(() => {
     if (!spotifyToken) {
       setError("Spotify authentication required");
-      return;
+      navigate("/auth");
     }
+  }, [spotifyToken, navigate]);
 
-    if (!playlist || !playlist.id) {
-      setError("No playlist selected for transfer");
-      return;
-    }
-
-    // Clear any previous errors when we have valid data
-    setError(null);
-  }, [spotifyToken, playlist]);
-
-  // Fetch the tracks from the selected playlist
+  // Navigate to summary when transfer completes
   useEffect(() => {
-    if (!spotifyToken || !playlist || error) {
+    if (transferResult) {
+      navigate("/summary", {
+        state: {
+          result: transferResult,
+          playlist: playlist,
+          tracksCount: tracks.length,
+        },
+      });
+    }
+  }, [transferResult, navigate, playlist, tracks.length]);
+
+  // Load playlist tracks
+  useEffect(() => {
+    if (!spotifyToken || !playlist?.id) {
+      setError("No playlist selected for transfer");
+      setTracksLoading(false);
       return;
     }
 
     const fetchPlaylistTracks = async () => {
-      setLoading(true);
+      setTracksLoading(true);
       try {
-        const response = await fetch(
+        const response = await axios.get(
           `https://api.spotify.com/v1/playlists/${playlist.id}/tracks`,
           {
             headers: {
@@ -49,34 +60,45 @@ const Transfer = () => {
           }
         );
 
-        const data = await response.json();
-        console.log("API Response:", data); // 👉 Check the full response
-
-        if (!response.ok) {
-          throw new Error(
-            `Spotify API error: ${response.status} - ${data.error?.message}`
-          );
-        }
-
-        if (data?.items?.length > 0) {
-          setTracks(data.items);
+        if (response.data.items && response.data.items.length > 0) {
+          setTracks(response.data.items);
           console.log(
-            `Loaded ${data.items.length} tracks from playlist "${playlist.name}"`
+            `Loaded ${response.data.items.length} tracks from Spotify`
           );
         } else {
-          console.warn("No tracks found in this playlist.");
-          setTracks([]);
+          setError("No tracks found in this playlist");
         }
       } catch (error) {
         console.error("Error fetching tracks:", error);
         setError(`Failed to load tracks: ${error.message}`);
       } finally {
-        setLoading(false);
+        setTracksLoading(false);
       }
     };
 
     fetchPlaylistTracks();
-  }, [spotifyToken, playlist, error]);
+  }, [spotifyToken, playlist]);
+
+  // Check MusicKit initialization
+  useEffect(() => {
+    // Verify MusicKit is available
+    if (window.MusicKit) {
+      try {
+        const music = window.MusicKit.getInstance();
+        console.log(
+          "MusicKit status:",
+          music ? "Available" : "Not initialized"
+        );
+        if (music) {
+          console.log("Apple Music authorized:", music.isAuthorized);
+        }
+      } catch (error) {
+        console.warn("MusicKit check failed:", error.message);
+      }
+    } else {
+      console.warn("MusicKit not available - make sure it's properly loaded");
+    }
+  }, []);
 
   const handleTransferToAppleMusic = async () => {
     if (tracks.length === 0) {
@@ -84,82 +106,127 @@ const Transfer = () => {
       return;
     }
 
-    setTransferStatus("Transferring to Apple Music...");
+    setTransferStatus("Preparing transfer to Apple Music...");
+    setLoading(true);
 
     try {
-      // Get Apple Music instance and token
-      const music = window.MusicKit.getInstance();
-      if (!music || !music.isAuthorized) {
-        throw new Error(
-          "Apple Music is not authorized. Please authenticate first."
+      // Initialize and authorize with Apple Music
+      let music;
+      try {
+        music = window.MusicKit.getInstance();
+        if (!music) throw new Error("MusicKit instance is not available.");
+
+        console.log(
+          "Current Apple Music authorization status:",
+          music.isAuthorized
         );
+
+        // Authorize if needed
+        if (!music.isAuthorized) {
+          setTransferStatus("Authorizing with Apple Music...");
+          await music.authorize();
+          console.log(
+            "After authorization attempt, status:",
+            music.isAuthorized
+          );
+        }
+      } catch (musicKitError) {
+        throw new Error(`MusicKit error: ${musicKitError.message}`);
       }
 
-      const appleMusicUserToken = music.musicUserToken;
+      if (!music.isAuthorized) {
+        throw new Error("Apple Music authorization failed or was denied.");
+      }
 
-      // Call your backend endpoint
-      const transferResponse = await fetch(
+      // Get tokens
+      const appleMusicUserToken = music.musicUserToken;
+      const appleDeveloperToken = music.developerToken;
+
+      if (!appleMusicUserToken) {
+        throw new Error("Failed to obtain Apple Music user token");
+      }
+
+      console.log(
+        "Have Apple Music tokens:",
+        appleMusicUserToken ? "✓ User Token" : "✗ No User Token",
+        appleDeveloperToken ? "✓ Developer Token" : "✗ No Developer Token"
+      );
+
+      // Format track data
+      setTransferStatus("Preparing track data...");
+      const trackData = tracks.map((track) => ({
+        name: track.track.name,
+        artist: track.track.artists.map((a) => a.name).join(", "),
+        album: track.track.album?.name || "",
+        uri: track.track.uri,
+        isrc: track.track.external_ids?.isrc || null,
+      }));
+
+      // Make the transfer request
+      setTransferStatus("Transferring tracks to Apple Music...");
+      console.log("Sending transfer request with", trackData.length, "tracks");
+
+      const response = await axios.post(
         "http://localhost:8888/apple/transfer",
         {
-          method: "POST",
+          playlist: {
+            name: playlist.name,
+            description: playlist.description || "Transferred from Spotify",
+          },
+          tracks: trackData,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${spotifyToken}`,
+            Authorization: `Bearer ${appleMusicUserToken}`,
+            "Developer-Token": appleDeveloperToken,
           },
-          body: JSON.stringify({
-            appleMusicToken: appleMusicUserToken,
-            playlist: {
-              name: playlist.name,
-              description: playlist.description || "Transferred from Spotify",
-            },
-            tracks: tracks.map((track) => ({
-              name: track.track.name,
-              artist: track.track.artists.map((a) => a.name).join(", "),
-              album: track.track.album?.name || "",
-              uri: track.track.uri,
-              isrc: track.track.external_ids?.isrc || null, // ISRC is helpful for Apple Music matching
-            })),
-          }),
         }
       );
 
-      if (!transferResponse.ok) {
-        throw new Error(`Transfer API error: ${transferResponse.status}`);
-      }
+      console.log("Transfer response:", response.data);
 
-      const transferData = await transferResponse.json();
+      if (response.data.success) {
+        setTransferStatus("Transfer successful! Redirecting to summary...");
 
-      if (transferData.success) {
-        setTransferStatus(
-          <>
-            Transfer successful! Check your{" "}
-            <a
-              href={`applemusic://playlist/${transferData.appleMusicPlaylistId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Apple Music playlist
-            </a>
-            .
-          </>
-        );
+        // Set transfer result to trigger navigation
+        setTransferResult({
+          success: true,
+          message: `Successfully transferred playlist "${playlist.name}"`,
+          tracksAdded: response.data.tracksAdded || 0,
+          totalTracks: trackData.length,
+          appleMusicPlaylistId: response.data.appleMusicPlaylistId,
+        });
       } else {
-        setTransferStatus(
-          `Transfer failed: ${transferData.message || "Unknown error"}`
-        );
+        throw new Error(response.data.message || "Unknown error");
       }
     } catch (error) {
-      console.error("Error transferring to Apple Music:", error);
-      setTransferStatus(`Transfer failed: ${error.message || "Unknown error"}`);
+      console.error("Transfer failed:", error);
+      setTransferStatus(
+        `Transfer failed: ${error.message}. Redirecting to summary...`
+      );
+
+      // Set transfer result with error to trigger navigation
+      setTransferResult({
+        success: false,
+        message: `Failed to transfer playlist: ${error.message}`,
+        error: error.message,
+      });
+    } finally {
+      setLoading(false);
+
+      // If for some reason the transfer result wasn't set, set it now
+      setTimeout(() => {
+        if (!transferResult) {
+          setTransferResult({
+            success: false,
+            message: "Transfer timeout or unknown error",
+            error: "Transfer process did not complete properly",
+          });
+        }
+      }, 3000); // Wait 3 seconds before forcing navigation
     }
   };
-
-  // Redirect to auth if missing credentials
-  useEffect(() => {
-    if (error === "Spotify authentication required") {
-      navigate("/auth");
-    }
-  }, [error, navigate]);
 
   return (
     <div className="transfer-container">
@@ -168,9 +235,7 @@ const Transfer = () => {
       {error ? (
         <div className="error-message">
           <p>{error}</p>
-          <button onClick={() => navigate("/playlists")}>
-            Go Back to Playlists
-          </button>
+          <button onClick={() => navigate("/playlists")}>Go Back</button>
         </div>
       ) : (
         <>
@@ -179,12 +244,12 @@ const Transfer = () => {
 
           <div className="tracks-container">
             <h3>Tracks to Transfer ({tracks.length})</h3>
-            {loading ? (
+            {tracksLoading ? (
               <p className="loading">Loading tracks...</p>
             ) : tracks.length > 0 ? (
               <ul className="tracks-list">
                 {tracks.map((track, index) => (
-                  <li key={`${track.track.id || index}`} className="track-item">
+                  <li key={track.track.id || index} className="track-item">
                     <div className="track-info">
                       <strong>{track.track.name}</strong> -{" "}
                       {track.track.artists.map((a) => a.name).join(", ")}
@@ -207,9 +272,9 @@ const Transfer = () => {
             <button
               className="transfer-button"
               onClick={handleTransferToAppleMusic}
-              disabled={tracks.length === 0 || loading}
+              disabled={tracksLoading || tracks.length === 0 || loading}
             >
-              Transfer to Apple Music
+              {loading ? "Transferring..." : "Transfer to Apple Music"}
             </button>
 
             <button
@@ -221,7 +286,10 @@ const Transfer = () => {
           </div>
 
           {transferStatus && (
-            <div className="transfer-status">{transferStatus}</div>
+            <div className="transfer-status">
+              <p>{transferStatus}</p>
+              {loading && <div className="loading-spinner"></div>}
+            </div>
           )}
         </>
       )}
