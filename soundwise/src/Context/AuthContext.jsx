@@ -1,34 +1,101 @@
 // Context/AuthContext.jsx
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
-
 export const AuthProvider = ({ children }) => {
-  const [spotifyToken, setSpotifyToken] = useState(
-    localStorage.getItem("spotifyToken") || null
-  );
-  const [appleMusicToken, setAppleMusicToken] = useState(
-    localStorage.getItem("appleMusicToken") || null
-  );
+  const [spotifyToken, setSpotifyToken] = useState(null);
+  const [appleMusicToken, setAppleMusicToken] = useState(null);
+  const [musicKitReady, setMusicKitReady] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  // Load tokens from localStorage when the app starts
   useEffect(() => {
-    if (spotifyToken) localStorage.setItem("spotifyToken", spotifyToken);
-    if (appleMusicToken)
-      localStorage.setItem("appleMusicToken", appleMusicToken);
-  }, [spotifyToken, appleMusicToken]);
+    const spotToken = localStorage.getItem('spotifyToken');
+    const appleToken = localStorage.getItem('appleMusicToken');
+    
+    if (spotToken) {
+      setSpotifyToken(spotToken);
+    }
+    
+    if (appleToken) {
+      setAppleMusicToken(appleToken);
+    }
+    
+    setLoading(false);
+  }, []);
+
+  // Check if MusicKit is ready
+  useEffect(() => {
+    const musicKitLoaded = () => {
+      if (typeof window.MusicKit !== "undefined") {
+        setMusicKitReady(true);
+        console.log("MusicKit loaded and ready in AuthContext.");
+      }
+    };
+
+    if (typeof window.MusicKit !== "undefined") {
+      musicKitLoaded();
+    } else {
+      document.addEventListener("musickitloaded", musicKitLoaded);
+    }
+
+    return () => {
+      document.removeEventListener("musickitloaded", musicKitLoaded);
+    };
+  }, []);
+
+  // Save Spotify token to localStorage and context
+  const saveSpotifyToken = (token) => {
+    if (token) {
+      localStorage.setItem('spotifyToken', token);
+      setSpotifyToken(token);
+    } else {
+      localStorage.removeItem('spotifyToken');
+      setSpotifyToken(null);
+    }
+  };
+
+  // Save Apple Music token to localStorage and context
+  const saveAppleMusicToken = (token) => {
+    if (token) {
+      localStorage.setItem('appleMusicToken', token);
+      setAppleMusicToken(token);
+    } else {
+      localStorage.removeItem('appleMusicToken');
+      setAppleMusicToken(null);
+    }
+  };
+
+  // Clear all tokens (for logout)
+  const clearAllTokens = () => {
+    localStorage.removeItem('spotifyToken');
+    localStorage.removeItem('appleMusicToken');
+    setSpotifyToken(null);
+    setAppleMusicToken(null);
+  };
+
+  // Check if user is authenticated with both services
+  const isFullyAuthenticated = () => {
+    return !!spotifyToken && !!appleMusicToken;
+  };
 
   return (
-    <AuthContext.Provider
-      value={{
-        spotifyToken,
-        setSpotifyToken,
+    <AuthContext.Provider 
+      value={{ 
+        spotifyToken, 
         appleMusicToken,
-        setAppleMusicToken,
+        musicKitReady,
+        loading, 
+        saveSpotifyToken,
+        saveAppleMusicToken,
+        clearAllTokens,
+        isFullyAuthenticated
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);

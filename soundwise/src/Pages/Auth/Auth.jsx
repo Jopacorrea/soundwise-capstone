@@ -1,136 +1,199 @@
 // Auth.jsx
-// npm libraries
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext.jsx";
 
 const Auth = () => {
-  const [spotifyToken, setSpotifyToken] = useState(null);
-  const [appleMusicToken, setAppleMusicToken] = useState(null);
-  const [musicKitReady, setMusicKitReady] = useState(false);
+  const [authError, setAuthError] = useState(null);
+  const {
+    spotifyToken,
+    appleMusicToken,
+    musicKitReady,
+    saveSpotifyToken,
+    saveAppleMusicToken,
+  } = useAuth();
+
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Check if MusicKit is ready on component mount
+  // Handle Spotify authentication from URL parameters
   useEffect(() => {
-    const musicKitLoaded = () => {
-      if (typeof window.MusicKit !== "undefined") {
-        setMusicKitReady(true);
-        console.log("MusicKit loaded and ready.");
-      } else {
-        console.error("MusicKit failed to load.");
-      }
-    };
+    const spotifyParams = new URLSearchParams(location.search);
+    const spotifyAuthToken = spotifyParams.get("access_token");
+    const error = spotifyParams.get("error");
 
-    if (typeof window.MusicKit !== "undefined") {
-      musicKitLoaded();
-    } else {
-      document.addEventListener("musickitloaded", musicKitLoaded);
+    if (error) {
+      setAuthError(`Spotify authentication error: ${error}`);
+      return;
     }
 
-    return () => {
-      document.removeEventListener("musickitloaded", musicKitLoaded);
-    };
-  }, []);
+    if (spotifyAuthToken && !spotifyToken) {
+      saveSpotifyToken(spotifyAuthToken);
+      console.log("Spotify token saved from URL parameters");
+    }
+  }, [location.search, spotifyToken, saveSpotifyToken]);
+
+  // Auto-trigger Apple Music login when Spotify is authenticated
+  useEffect(() => {
+    if (spotifyToken && !appleMusicToken && musicKitReady) {
+      handleAppleMusicLogin();
+    }
+  }, [spotifyToken, appleMusicToken, musicKitReady]);
 
   // Handle Apple Music login
   const handleAppleMusicLogin = async () => {
     try {
       console.log("Attempting to log in to Apple Music...");
+      setAuthError(null);
 
       if (!musicKitReady) {
-        console.error("MusicKit is not ready yet.");
+        setAuthError("Apple Music is not ready yet. Please try again.");
         return;
       }
 
       // Fetch the Apple Music Developer token from the backend
       const response = await axios.get("http://localhost:8888/apple/token");
-      const appleToken = response.data.appleToken;
+      const developerToken = response.data.appleToken;
 
-      if (!appleToken) {
-        console.error("Apple Music Developer Token is missing.");
+      if (!developerToken) {
+        setAuthError(
+          "Could not retrieve Apple Music developer token from server"
+        );
         return;
       }
 
-      console.log("Apple Music Developer Token:", appleToken);
+      console.log("Got developer token:", developerToken);
 
-      // Ensure MusicKit is initialized
-      let music = window.MusicKit.getInstance();
-      if (!music) {
-        console.warn("MusicKit instance is unavailable. Initializing...");
+      // Configure MusicKit with a safer approach
+      try {
+        // First, make sure window.MusicKit exists
+        if (typeof window.MusicKit === "undefined") {
+          throw new Error("MusicKit is not available");
+        }
+
+        // Configure MusicKit
         window.MusicKit.configure({
-          developerToken: appleToken,
+          developerToken: developerToken,
           app: {
             name: "SoundWise",
             build: "1.0.0",
           },
         });
 
-        // Wait for MusicKit to be available
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay 1s
-        music = window.MusicKit.getInstance();
+        // Add a delay to ensure configuration completes
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Get instance after configuration
+        const music = window.MusicKit.getInstance();
+
+        if (!music) {
+          throw new Error(
+            "Failed to get MusicKit instance after configuration"
+          );
+        }
+
+        console.log(
+          "MusicKit configured successfully, attempting to authorize..."
+        );
+
+        // Authorize with Apple Music
+        const userToken = await music.authorize();
+        console.log("Apple Music authorization successful");
+
+        // Save the token
+        saveAppleMusicToken(userToken);
+
+        // Navigate to playlists if both services are authenticated
+        if (spotifyToken) {
+          navigate("/playlists");
+        }
+      } catch (musicKitError) {
+        console.error(
+          "MusicKit configuration or authorization error:",
+          musicKitError
+        );
+        setAuthError(`Apple Music error: ${musicKitError.message}`);
       }
-
-      if (!music) {
-        console.error("Failed to initialize MusicKit.");
-        return;
-      }
-
-      console.log("Configuring MusicKit with token...");
-      const token = await music.authorize();
-      console.log("Apple Music Authorization token:", token);
-
-      setAppleMusicToken(token);
-      navigate("/playlists");
     } catch (error) {
       console.error("Apple Music login failed:", error);
+      setAuthError(error.message || "Failed to authenticate with Apple Music");
     }
   };
-
-  useEffect(() => {
-    const { fromSpotify } = location.state || {};
-
-    if (fromSpotify && !spotifyToken) {
-      const spotifyAuthToken = new URLSearchParams(location.search).get(
-        "access_token"
-      );
-      if (spotifyAuthToken) {
-        setSpotifyToken(spotifyAuthToken);
-      }
-    }
-
-    if (spotifyToken && !appleMusicToken && musicKitReady) {
-      handleAppleMusicLogin();
-    }
-  }, [location.state, spotifyToken, appleMusicToken, musicKitReady]);
-
+  // Handle Spotify login button click
   const handleSpotifyLogin = () => {
-    window.location.href = "http://localhost:8888/spotify/login"; // Redirect to backend
+    window.location.href = "http://localhost:8888/spotify/login";
   };
 
+  // Redirect to playlists when both authenticated
   useEffect(() => {
     if (spotifyToken && appleMusicToken) {
-      console.log("Redirecting to /playlists...");
+      console.log("Fully authenticated, redirecting to playlists");
       navigate("/playlists");
     }
   }, [spotifyToken, appleMusicToken, navigate]);
 
   return (
-    <div>
-      <h1>Authenticate</h1>
-      {!spotifyToken && (
-        <button onClick={handleSpotifyLogin}>Login with Spotify</button>
+    <div className="auth-container">
+      <h1>Connect Your Music Services</h1>
+
+      {authError && (
+        <div className="auth-error">
+          <p>{authError}</p>
+          <button onClick={() => setAuthError(null)}>Dismiss</button>
+        </div>
       )}
-      {spotifyToken && !appleMusicToken && (
-        <p>Authenticated with Spotify! Now, authenticate with Apple Music.</p>
-      )}
-      {!appleMusicToken && musicKitReady && (
-        <button onClick={handleAppleMusicLogin}>Login to Apple Music</button>
-      )}
-      {!musicKitReady && <p>Loading Apple Music...</p>}
-      {appleMusicToken && (
-        <p>Authenticated with both Spotify and Apple Music!</p>
+
+      <div className="auth-services">
+        <div className="service-auth spotify">
+          <h2>Spotify</h2>
+          {!spotifyToken ? (
+            <button onClick={handleSpotifyLogin} className="spotify-login-btn">
+              Connect Spotify
+            </button>
+          ) : (
+            <div className="auth-status success">
+              <span>✓</span> Connected to Spotify
+            </div>
+          )}
+        </div>
+
+        <div className="service-auth apple-music">
+          <h2>Apple Music</h2>
+          {!appleMusicToken ? (
+            !musicKitReady ? (
+              <p>Loading Apple Music...</p>
+            ) : (
+              <button
+                onClick={handleAppleMusicLogin}
+                className="apple-login-btn"
+                disabled={!spotifyToken}
+              >
+                Connect Apple Music
+              </button>
+            )
+          ) : (
+            <div className="auth-status success">
+              <span>✓</span> Connected to Apple Music
+            </div>
+          )}
+
+          {spotifyToken && !appleMusicToken && musicKitReady && (
+            <p className="auth-hint">Please connect Apple Music to continue</p>
+          )}
+        </div>
+      </div>
+
+      {spotifyToken && appleMusicToken && (
+        <div className="auth-complete">
+          <p>Authentication complete! You can now transfer your playlists.</p>
+          <button
+            onClick={() => navigate("/playlists")}
+            className="continue-btn"
+          >
+            Continue to Playlists
+          </button>
+        </div>
       )}
     </div>
   );
