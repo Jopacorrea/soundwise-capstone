@@ -71,12 +71,9 @@ const Playlists = () => {
       {spotifyPlaylists.length > 0 ? (
         <div className="playlists-component__list">
           {spotifyPlaylists.map((playlist) => (
-            <div key={playlist.id} className="playlist-item">
+            <div key={playlist.id} className="playlist-item" onClick={() => handleSelectPlaylist(playlist)}>
               <img src={playlist.images[0].url} alt={playlist.name} className="playlist-item__image" />
               <p className="playlist-item__title">{playlist.name}</p>
-              <button onClick={() => handleSelectPlaylist(playlist)} className="playlist-item__button">
-                {playlist.name}
-              </button>
             </div>
           ))}
         </div>

@@ -71,6 +71,10 @@
   transition: all 0.2s ease;
   width: 150px;
 
+  @include tablet {
+    width: 200px;
+  }
+
   &:hover {
     transform: scale(1.01);
     background-color: rgba(255, 255, 255, 0.899);
@@ -90,7 +94,7 @@
     object-fit: cover;
 
     @include tablet {
-        width: 200px;
+    width: 200px;
     height: 200px;
     }
   }
