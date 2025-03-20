@@ -24,9 +24,11 @@
     color: white;
     padding: 0;
     margin: 0;
+    @include font-title;
 
     @include tablet {
       font-size: 100px;
+      font-weight: 900;
     }
   }
 
