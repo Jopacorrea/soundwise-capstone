@@ -1,19 +1,64 @@
+//partals
+@use "../../Style/Partials/font-mixins" as *;
+@use "../../Style/Partials/screen-breakpoints" as *;
+
 .home-component {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 50%;
-  z-index: 1;
-  width: 100%;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  top: 20%;
+  z-index: 1;
+  width: 100%;
+
+  @include tablet {
+    top: 35%;
+  }
+  
 
   &__title {
     z-index: 1;
-    font-size: 100px;
+    font-size: 50px;
     font-weight: 700;
     color: white;
     padding: 0;
-    margin:0;
+    margin: 0;
+
+    @include tablet {
+      font-size: 100px;
+    }
+  }
+
+  &__logo {
+    background-color: transparent;
+    width: 150px;
+
+    @include tablet {
+      width: 300px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.421);
+    width: 100px;
+    height: 40px;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.045);
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    @include font-body;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.93);
+      transform: scale(1.05);
+      box-shadow: 10px 10px rgba(88, 27, 221, 0.278);
+    }
   }
 }
