@@ -1,0 +1,173 @@
+@use "../../Style/Partials/screen-breakpoints" as *;
+@use "../../Style/Partials/font-mixins" as *;
+@use "../../Style/Partials/_colors" as *;
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 20%;
+  z-index: 1;
+  width: 100%;
+
+  @include tablet {
+    top: 35%;
+  }
+
+  &__title {
+    z-index: 1;
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    @include font-title;
+
+    @include tablet {
+      font-size: 100px;
+    }
+  }
+
+  &__services-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // margin: 10px;
+    // padding: 10px;
+    // border-radius: 10px;
+    // background-color: rgba(255, 255, 255, 0.23);
+    // box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
+    // width: 70%;
+    @include font-body;
+  }
+
+  &__subtitle {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 90px;
+    margin-bottom: 10px;
+    width: 60%;
+  }
+}
+
+.spotify-auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.23);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
+  width: 150px;
+
+  &__logo {
+    width: 100px;
+  }
+
+  &__title {
+    margin: 0;
+    color: white;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.421);
+    width: 100px;
+    height: 40px;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.045);
+    border: none;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    color: $button-text;
+    @include font-body;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.93);
+      transform: scale(1.05);
+      box-shadow: 10px 10px rgba(88, 27, 221, 0.278);
+    }
+  }
+
+  &__connected {
+    @include font-body;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+}
+
+.apple-music {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.23);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
+  width: 150px;
+
+  &__logo {
+    width: 100px;
+  }
+
+  &__title {
+    margin: 0;
+    color: white;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.421);
+    width: 100px;
+    height: 35px;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.045);
+    border: none;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    color: $button-text;
+    @include font-body;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.93);
+      transform: scale(1.05);
+      box-shadow: 10px 10px rgba(88, 27, 221, 0.278);
+    }
+  }
+
+  &__connected {
+    @include font-body;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  &__hint {
+    @include font-body;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+}

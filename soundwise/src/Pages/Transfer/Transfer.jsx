@@ -171,7 +171,7 @@ const Transfer = () => {
         {
           playlist: {
             name: playlist.name,
-            description: playlist.description || "Transferred from Spotify",
+            description: playlist.description || "Transferred from SoundWise 💜",
           },
           tracks: trackData,
         },

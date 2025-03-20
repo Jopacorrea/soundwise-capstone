@@ -44,17 +44,29 @@ function App() {
     let tgX = 0;
     let tgY = 0;
     
-    function move() {
+    // Create the gradient element dynamically
+    const updateGradient = () => {
+      const bubble = interactiveBubbleRef.current;
+      if (!bubble) return;
+      
+      // Calculate the gradient position
       curX += (tgX - curX) / 20;
       curY += (tgY - curY) / 20;
       
-      if (interactiveBubbleRef.current) {
-        interactiveBubbleRef.current.style.transform = `translate(${Math.round(curX)}px, ${Math.round(curY)}px)`;
-      }
-      
-      requestAnimationFrame(() => {
-        move();
-      });
+      // Set the background directly
+      bubble.style.background = `
+        radial-gradient(
+          circle at ${Math.round(curX)}px ${Math.round(curY)}px, 
+          rgba(var(--color-interactive), 0.8) 0%, 
+          rgba(var(--color-interactive), 0) 40%
+        ) 
+        no-repeat
+      `;
+    };
+    
+    function animate() {
+      updateGradient();
+      requestAnimationFrame(animate);
     }
     
     const handleMouseMove = (event) => {
@@ -63,7 +75,7 @@ function App() {
     };
     
     window.addEventListener('mousemove', handleMouseMove);
-    move();
+    animate();
     
     // Cleanup function
     return () => {

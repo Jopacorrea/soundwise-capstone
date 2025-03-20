@@ -4,6 +4,9 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.jsx";
 
+//style
+import "./Auth.scss";
+
 const Auth = () => {
   const [authError, setAuthError] = useState(null);
   const {
@@ -134,52 +137,57 @@ const Auth = () => {
   }, [spotifyToken, appleMusicToken, navigate]);
 
   return (
-    <div className="auth-container">
-      <h1>Connect Your Music Services</h1>
+    <div className="auth">
+      <h1 className="auth__title">Connect Your Music Services</h1>
 
       {authError && (
-        <div className="auth-error">
+        <div className="auth__error">
           <p>{authError}</p>
           <button onClick={() => setAuthError(null)}>Dismiss</button>
         </div>
       )}
 
-      <div className="auth-services">
-        <div className="service-auth spotify">
-          <h2>Spotify</h2>
+      <div className="auth__services-box">
+      <p className="auth__subtitle">1º Connect to your Spotify account</p>
+        <div className="spotify-auth">
+          <img src="./src/assets/images/Spotify.png" alt="spotify logo" className="spotify-auth__logo" />
+          <h2 className="spotify-auth__title">Spotify</h2>
+          
           {!spotifyToken ? (
-            <button onClick={handleSpotifyLogin} className="spotify-login-btn">
-              Connect Spotify
+            <button onClick={handleSpotifyLogin} className="spotify-auth__button">
+              Connect
             </button>
           ) : (
-            <div className="auth-status success">
-              <span>✓</span> Connected to Spotify
+            <div className="spotify-auth__connected">
+              <span>✅</span> Connected
             </div>
           )}
         </div>
 
-        <div className="service-auth apple-music">
-          <h2>Apple Music</h2>
+      <p className="auth__subtitle">2º Connect to your Apple Music account</p>
+        <div className="apple-music">
+          <img src="./src/assets/images/AppleMusic.png" alt="apple music logo" className="apple-music__logo" />
+          <h2 className="apple-music__title">Apple Music</h2>
           {!appleMusicToken ? (
             !musicKitReady ? (
               <p>Loading Apple Music...</p>
             ) : (
               <button
                 onClick={handleAppleMusicLogin}
-                className="apple-login-btn"
+                className="apple-music__button"
                 disabled={!spotifyToken}
               >
-                Connect Apple Music
+                Connect
               </button>
             )
           ) : (
-            <div className="auth-status success">
-              <span>✓</span> Connected to Apple Music
+            <div className="apple-music__connected">
+              <span>✅</span> Connected
             </div>
           )}
 
           {spotifyToken && !appleMusicToken && musicKitReady && (
-            <p className="auth-hint">Please connect Apple Music to continue</p>
+            <p className="apple-music__hint">Please connect Apple Music to continue</p>
           )}
         </div>
       </div>
