@@ -18,8 +18,8 @@
 
   &__title {
     z-index: 1;
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 32px;
+    font-weight: 400;
     color: white;
     padding: 0;
     margin-bottom: 20px;
@@ -28,6 +28,7 @@
     @include tablet {
       font-size: 60px;
       margin-bottom: 40px;
+      font-weight: 900;
     }
   }
 
@@ -53,6 +54,17 @@
 
     @include desktop {
       max-width: 80rem;
+    }
+  }
+
+  &__no-playlists {
+    @include font-body;
+    color: white;
+    margin-top: 200px;
+
+    @include tablet {
+      margin-top: 400px;
+      font-size: 50px;
     }
   }
 }
@@ -94,8 +106,8 @@
     object-fit: cover;
 
     @include tablet {
-    width: 200px;
-    height: 200px;
+      width: 200px;
+      height: 200px;
     }
   }
 }

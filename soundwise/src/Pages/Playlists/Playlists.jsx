@@ -78,7 +78,7 @@ const Playlists = () => {
           ))}
         </div>
       ) : (
-        <p>No playlists found.</p>
+        <p className="playlists-component__no-playlists">No playlists found</p>
       )}
 
       {/* Display transfer status */}
