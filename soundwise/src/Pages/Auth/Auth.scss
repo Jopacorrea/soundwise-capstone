@@ -17,14 +17,21 @@
 
   &__title {
     z-index: 1;
-    font-size: 32px;
+    font-size: 50px;
     font-weight: 700;
     color: white;
     text-align: center;
     @include font-title;
+    width: 90%;
 
     @include tablet {
+      font-size: 80px;
+      font-weight: 700;
+    }
+
+    @include desktop {
       font-size: 100px;
+      font-weight: 700;
     }
   }
 
@@ -33,22 +40,64 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // margin: 10px;
-    // padding: 10px;
-    // border-radius: 10px;
-    // background-color: rgba(255, 255, 255, 0.23);
-    // box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
-    // width: 70%;
+    padding: 20px;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.23);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
+    width: 60%;
     @include font-body;
+
+    @include tablet {
+      flex-direction: row;
+      margin-top: 50px;
+    }
+
+    @include desktop {
+      gap: 50px;
+      width: 60%;
+    }
   }
 
   &__subtitle {
     color: white;
     font-size: 20px;
     text-align: center;
-    margin-top: 90px;
+    margin-top: 30px;
     margin-bottom: 10px;
-    width: 60%;
+    width: 90%;
+  }
+}
+
+.spotify-outerbox{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 350px;
+
+  @include tablet {
+    width: 50%;
+    height: 400px;
+  }
+  @include desktop {
+    width: 100%;
+  }
+}
+
+.apple-music-outerbox{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 350px;
+
+  @include tablet {
+    width: 50%;
+    height: 400px;
+  }
+
+  @include desktop {
+    width: 100%;
   }
 }
 
@@ -63,9 +112,21 @@
   background-color: rgba(255, 255, 255, 0.23);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
   width: 150px;
+  height: 190px;
+
+  @include tablet {
+    width: 200px;
+    height: 250px;
+    margin-top: 30px;
+  }
 
   &__logo {
     width: 100px;
+
+    @include tablet {
+      width: 150px;
+      margin-bottom: 20px;
+    }
   }
 
   &__title {
@@ -104,6 +165,10 @@
     text-align: center;
     font-size: 16px;
     margin-top: 10px;
+
+    @include tablet {
+      margin-bottom: 10px;
+    }
   }
 }
 
@@ -118,9 +183,20 @@
   background-color: rgba(255, 255, 255, 0.23);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
   width: 150px;
+  height: 190px;
+
+  @include tablet {
+    width: 200px;
+    height: 250px;
+    margin-top: 30px;
+  }
 
   &__logo {
     width: 100px;
+    @include tablet {
+        width: 150px;
+        margin-bottom: 20px;
+      }
   }
 
   &__title {
@@ -135,7 +211,7 @@
     margin-top: 10px;
     background-color: rgba(255, 255, 255, 0.421);
     width: 100px;
-    height: 35px;
+    height: 40px;
     box-shadow: 5px 5px rgba(0, 0, 0, 0.045);
     border: none;
     border-radius: 50px;
@@ -160,14 +236,10 @@
     font-size: 20px;
     font-size: 16px;
     margin-top: 10px;
-  }
 
-  &__hint {
-    @include font-body;
-    color: white;
-    text-align: center;
-    font-size: 16px;
-    margin-top: 10px;
+    @include tablet {
+        margin-bottom: 10px;
+      }
   }
 
 }
