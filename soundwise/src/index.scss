@@ -1,3 +1,5 @@
+//index.scss
+
 html, body {
   margin: 0;
   padding: 0;
@@ -189,15 +191,3 @@ html, body {
   z-index: 1;
 }
 
-// /* Media query for mobile devices */
-// @media screen and (max-width: 768px) {
-//   .gradient-bg, .gradient-bg .gradients-container {
-//     height: 100dvh; /* Force dynamic viewport height */
-//     min-height: -webkit-fill-available; /* For iOS Safari */
-//   }
-  
-//   /* For iOS Safari */
-//   html, body {
-//     height: -webkit-fill-available;
-//   }
-// }

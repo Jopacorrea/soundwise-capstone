@@ -1,19 +1,19 @@
 //partials
 @use "../../Style/Partials/screen-breakpoints" as *;
 @use "../../Style/Partials/font-mixins" as *;
-
+@use "../../Style/Partials/colors" as *;
 .playlists-component {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 5%;
+  top: 2%;
   z-index: 1;
   width: 100%;
 
   @include tablet {
-    top: 10%;
+    top: 2%;
   }
 
   &__title {
@@ -91,12 +91,18 @@
     transform: scale(1.01);
     background-color: rgba(255, 255, 255, 0.899);
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.203);
+    cursor: pointer;
+
+    .playlist-item__title {
+      color: black;
+    }
   }
 
   &__title {
     font-size: 15px;
     font-weight: 700;
     @include font-body;
+    color: $button-text;
   }
 
   &__image {

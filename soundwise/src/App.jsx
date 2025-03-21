@@ -43,16 +43,16 @@ function App() {
     let curY = 0;
     let tgX = 0;
     let tgY = 0;
-    
+
     // Create the gradient element dynamically
     const updateGradient = () => {
       const bubble = interactiveBubbleRef.current;
       if (!bubble) return;
-      
+
       // Calculate the gradient position
       curX += (tgX - curX) / 20;
       curY += (tgY - curY) / 20;
-      
+
       // Set the background directly
       bubble.style.background = `
         radial-gradient(
@@ -63,25 +63,25 @@ function App() {
         no-repeat
       `;
     };
-    
+
     function animate() {
       updateGradient();
       requestAnimationFrame(animate);
     }
-    
+
     const handleMouseMove = (event) => {
       tgX = event.clientX;
       tgY = event.clientY;
     };
-    
-    window.addEventListener('mousemove', handleMouseMove);
+
+    window.addEventListener("mousemove", handleMouseMove);
     animate();
-    
+
     // Cleanup function
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [interactiveBubbleRef]); 
+  }, [interactiveBubbleRef]);
 
   return (
     <AuthProvider>
