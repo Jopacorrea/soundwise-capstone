@@ -1,0 +1,264 @@
+@use "../../Style/Partials/screen-breakpoints" as *;
+@use "../../Style/Partials/font-mixins" as *;
+@use "../../Style/Partials/colors" as *;
+
+.transfer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 5%;
+  z-index: 1;
+  width: 100%;
+
+  @include tablet {
+    top: 5%;
+  }
+
+  &__title {
+    z-index: 1;
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+    padding: 0;
+    margin: 0;
+    @include font-title;
+    text-align: center;
+
+    @include tablet {
+      font-size: 60px;
+    }
+  }
+
+  &__outerbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.203);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.215);
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 100px;
+
+    @include tablet {
+      width: 90%;
+    }
+    @include desktop {
+      width: 90%;
+    }
+  }
+
+  &__playlist-name {
+    @include font-body;
+    color: white;
+    font-size: 20px;
+    background-color: rgba(255, 255, 255, 0.203);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.415);
+    border-radius: 20px;
+    padding: 10px 0px;
+    margin: 0px;
+    width: 100%;
+    text-align: center;
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    @include font-body;
+    color: white;
+
+    @include tablet {
+      flex-direction: row;
+      align-items: stretch;
+    }
+  }
+
+  &__tracks-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__tracks-total {
+    @include font-body;
+    color: white;
+    font-size: 20px;
+    width: 100%;
+    padding: 10px 0px;
+    margin: 20px;
+    text-align: center;
+  }
+
+  &__tracks-loading {
+    @include font-body;
+    color: white;
+    font-size: 20px;
+    width: 100%;
+    padding: 10px 0px;
+    margin: 20px;
+    text-align: center;
+  }
+
+  &__tracks-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+
+    @include tablet {
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding-left: 20px;
+      padding-bottom: 20px;
+    }
+  }
+
+  &__tracks-item {
+    @include font-body;
+    color: white;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 5px;
+    flex-grow: 1;
+
+    @include tablet {
+      width: 30%;
+    }
+
+    @include desktop {
+      width: 20%;
+    }
+  }
+
+  &__tracks-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 30px;
+    font-size: 13px;
+    font-style: italic;
+    text-align: start;
+    padding-left: 15px;
+    color: rgb(144, 148, 179);
+
+    @include tablet {
+      margin-bottom: 0px;
+      padding-left: 0px;
+      font-size: 12px;
+    }
+  }
+
+  &__track-name {
+    @include font-body;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    text-align: start;
+    width: 90%;
+    margin-bottom: 2px;
+
+    @include tablet {
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+
+  &__action-buttons-outerbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.203);
+    width: 80%;
+
+    @include tablet {
+      width: 125px;
+    }
+  }
+
+  &__action-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    @include font-body;
+    color: white;
+
+    @include tablet {
+      flex-direction: column;
+    }
+  }
+
+  &__transfer-button {
+    font-size: 14px;
+    font-weight: 600;
+    color: $button-text;
+    text-align: center;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.23);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.203);
+    cursor: pointer;
+    width: 100%;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.93);
+      transform: scale(1.05);
+      box-shadow: 10px 10px rgba(88, 27, 221, 0.278);
+    }
+
+    @include tablet {
+      width: 100px;
+      height: 100px;
+      border-radius: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+  }
+
+  &__back-button {
+    font-size: 14px;
+    font-weight: 600;
+    color: $button-text;
+    text-align: center;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.23);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
+    cursor: pointer;
+    width: 100%;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.93);
+      transform: scale(1.05);
+      box-shadow: 10px 10px rgba(88, 27, 221, 0.278);
+    }
+
+    @include tablet {
+      width: 100px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

@@ -5,6 +5,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.jsx";
 import axios from "axios";
 
+//style
+import "./Transfer.scss";
+
 const Transfer = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -171,7 +174,8 @@ const Transfer = () => {
         {
           playlist: {
             name: playlist.name,
-            description: playlist.description || "Transferred from SoundWise 💜",
+            description:
+              playlist.description || "Transferred from SoundWise 💜",
           },
           tracks: trackData,
         },
@@ -229,70 +233,69 @@ const Transfer = () => {
   };
 
   return (
-    <div className="transfer-container">
-      <h1>Transfer Playlist</h1>
-
-      {error ? (
-        <div className="error-message">
-          <p>{error}</p>
-          <button onClick={() => navigate("/playlists")}>Go Back</button>
-        </div>
-      ) : (
-        <>
-          <h2>{playlist?.name}</h2>
-          {playlist?.description && <p>{playlist.description}</p>}
-
-          <div className="tracks-container">
-            <h3>Tracks to Transfer ({tracks.length})</h3>
-            {tracksLoading ? (
-              <p className="loading">Loading tracks...</p>
-            ) : tracks.length > 0 ? (
-              <ul className="tracks-list">
-                {tracks.map((track, index) => (
-                  <li key={track.track.id || index} className="track-item">
-                    <div className="track-info">
-                      <strong>{track.track.name}</strong> -{" "}
-                      {track.track.artists.map((a) => a.name).join(", ")}
-                      {track.track.album && (
-                        <span className="album-name">
-                          {" "}
-                          • {track.track.album.name}
-                        </span>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="no-tracks">No tracks available in this playlist.</p>
-            )}
+    <div className="transfer">
+      <h1 className="transfer__title">Playlist Details</h1>
+      <div className="transfer__outerbox">
+        {error ? (
+          <div className="error-message">
+            <p>{error}</p>
+            <button onClick={() => navigate("/playlists")}>Go Back</button>
           </div>
+        ) : (
+          <>
+            <h2 className="transfer__playlist-name">{playlist?.name}</h2>
+            <div className="transfer__main">
+              <div className="transfer__tracks-container">
+                <h3 className="transfer__tracks-total">
+                  Tracks to Transfer ({tracks.length})
+                </h3>
+                {tracksLoading ? (
+                  <p className="transfer__tracks-loading">Loading tracks...</p>
+                ) : tracks.length > 0 ? (
+                  <div className="transfer__tracks-list">
+                    {tracks.map((track, index) => (
+                      <div
+                        key={track.track.id || index}
+                        className="transfer__tracks-item"
+                      >
+                        <div className="transfer__tracks-info">
+                          <strong className="transfer__track-name">
+                            🎵 {track.track.name}
+                          </strong>{" "}
+                          {track.track.artists.map((a) => a.name).join(", ")}
+                          <br />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="no-tracks">
+                    No tracks available in this playlist.
+                  </p>
+                )}
+              </div>
 
-          <div className="action-buttons">
-            <button
-              className="transfer-button"
-              onClick={handleTransferToAppleMusic}
-              disabled={tracksLoading || tracks.length === 0 || loading}
-            >
-              {loading ? "Transferring..." : "Transfer to Apple Music"}
-            </button>
-
-            <button
-              className="back-button"
-              onClick={() => navigate("/playlists")}
-            >
-              Back to Playlists
-            </button>
-          </div>
-
-          {transferStatus && (
-            <div className="transfer-status">
-              <p>{transferStatus}</p>
-              {loading && <div className="loading-spinner"></div>}
+              <div className="transfer__action-buttons-outerbox">
+                <div className="transfer__action-buttons">
+                  <div
+                    className="transfer__transfer-button"
+                    onClick={handleTransferToAppleMusic}
+                    disabled={tracksLoading || tracks.length === 0 || loading}
+                  >
+                    {loading ? "Transferring..." : "Transfer now"}
+                  </div>
+                  <div
+                    className="transfer__back-button"
+                    onClick={() => navigate("/playlists")}
+                  >
+                    Playlists
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 };
