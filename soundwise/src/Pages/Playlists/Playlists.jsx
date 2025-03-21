@@ -5,13 +5,13 @@ import { useAuth } from "../../Context/AuthContext.jsx";
 
 //style
 import "./Playlists.scss";
+import Header from "../../Components/Header/Header.jsx";
 
 const Playlists = () => {
   const { spotifyToken } = useAuth();
   const [spotifyPlaylists, setSpotifyPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [transferStatus, setTransferStatus] = useState("");
-  const [selectedPlaylistTracks, setSelectedPlaylistTracks] = useState([]);
   const navigate = useNavigate();
 
   // Fetch Spotify Playlists with pagination
@@ -67,6 +67,7 @@ const Playlists = () => {
 
   return (
     <div className="playlists-component">
+      <Header/>
       <h1 className="playlists-component__title">Spotify Playlists</h1>
       {spotifyPlaylists.length > 0 ? (
         <div className="playlists-component__list">

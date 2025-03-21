@@ -3,13 +3,14 @@ import React from "react";
 //style
 import "./Summary.scss";
 import { useNavigate } from "react-router-dom";
-
+import Header from "../../Components/Header/Header.jsx";
 
 
 function Summary() {
   const navigate = useNavigate();
 
   return <div className="summary">
+    <Header />
     
     <h1 className="summary__title">Summary</h1>
 

@@ -7,6 +7,7 @@ import axios from "axios";
 
 //style
 import "./Transfer.scss";
+import Header from "../../Components/Header/Header.jsx";
 
 const Transfer = () => {
   const location = useLocation();
@@ -234,6 +235,7 @@ const Transfer = () => {
 
   return (
     <div className="transfer">
+      <Header />
       <h1 className="transfer__title">Playlist Details</h1>
       <div className="transfer__outerbox">
         {error ? (
