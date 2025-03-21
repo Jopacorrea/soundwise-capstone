@@ -33,24 +33,29 @@ In other words, anyone who uses a music streaming service and values playlist co
 
 - **Frontend:** React (Vite)
 - **Backend:** Node.js with Express
-- **Authentication:** OAuth (Spotify, Apple Music API)
-- **Libraries:** Axios (for making API requests), dotenv (for managing environment variables), Tailwind or Sass(for styling), Rive, Three.js or GSAP (for animations)
+- **Authentication:** OAuth (Spotify, Apple Music API + MusicKit JS)
+- **Libraries:** Axios (for making API requests), dotenv (for managing environment variables), Sass(for styling)
 - **Hosting:** Heroku or Netlify.
 
 ### APIs
 
 - Spotify
 - Apple Music
+- MusicKit JS
 
 ### Sitemap
 
-- **Home Page:** Users can log in via Spotify or Apple Music.
+- **Home Page:** Landing page.
 
-- **Dashboard:** Displays available playlists from Spotify and Apple Music.
+- **Connecting Services Page:** Users can connect with both services by following the OAuth flow.
 
-- **Transfer Page:** Users can select playlists and transfer them between services.
+- **Playlists Page:** Displays available playlists from user's profile in Spotify.
 
-- **History Page:** Shows past transfer attempts and their statuses.
+- **Playlist Details Page:** Users can see all the song within the playlist and start the transfer or navigate to Playlists page to select a diffenrent one.
+
+- **Summary Page:** Shows final status of the process and offers a navigation link to Apple Music, to increase UX.
+
+- **404 page:** Shows a redirect button to Home Page.
 
 ### Mockups
 
@@ -65,8 +70,6 @@ In other words, anyone who uses a music streaming service and values playlist co
 
 **Playlist Data:** Contains metadata about playlists, including song titles and track IDs from both platforms.
 
-**Transfer History:** Tracks the status of each transfer attempt, including the source platform, destination platform, and result.
-
 ### Endpoints
 
     POST /auth: Authenticate user
@@ -75,9 +78,8 @@ In other words, anyone who uses a music streaming service and values playlist co
 
     POST /transfer: Initiate playlist transfer
 
-    GET /transfer/status: Check transfer progress
+    GET /summary: Check transfer progress
 
-    GET /history: Fetch previous transfers
 
 ## Roadmap
 
@@ -101,25 +103,28 @@ _Sprint Breakdown (2 Weeks)_
 
 ### Week 2
 
-- [ ] **Day 8** _Implement song matching logic between platforms_
+- [x] **Day 8** _Implement song matching logic between platforms_
 
-- [ ] **Day 9** _Develop playlist creation feature on destination service_
+- [x] **Day 9** _Develop playlist creation feature on destination service_
 
-- [ ] **Day 10** _Implement transfer progress tracking and UI updates_
+- [x] **Day 10** _Implement transfer progress tracking and UI updates_
 
-- [ ] **Day 11** _Set up database (if needed) for user session management_
+- [x] **Day 11** _Set up local storage for auth keys_
 
-- [ ] **Day 12** _Conduct full integration testing and fix bugs_
+- [x] **Day 12** _Conduct full integration testing and fix bugs_
 
 - [ ] **Day 13** _Final UI enhancements and prepare for demo_
 
 - [ ] **Day 14** _Final testing, documentation, and deployment_
 
+- [x] **Mobile app version:** Create a mobile-responsive version of the app for ease of use on phones and tablets.
+
 ## Future Implementations
 
 **Multiple Playlist Transfers:** Allow users to select and transfer multiple playlists at once.
 
-**Mobile app version:** Create a mobile-responsive version of the app for ease of use on phones and tablets.
+**Transfer from Apple Music to Spotify:** Create the reverse flow to better coverage of users demand.
+
 
 <p align="center">
     <img src="./README assets/SoundWise_Banner.png" width="500">
