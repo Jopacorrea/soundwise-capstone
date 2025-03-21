@@ -6,6 +6,7 @@ import { useAuth } from "../../Context/AuthContext.jsx";
 //style
 import "./Playlists.scss";
 import Header from "../../Components/Header/Header.jsx";
+import Footer from "../../Components/Footer/Footer.jsx";
 
 const Playlists = () => {
   const { spotifyToken } = useAuth();
@@ -84,6 +85,7 @@ const Playlists = () => {
 
       {/* Display transfer status */}
       {transferStatus && <p>{transferStatus}</p>}
+      <Footer />
     </div>
   );
 };

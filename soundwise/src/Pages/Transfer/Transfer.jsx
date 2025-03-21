@@ -8,6 +8,7 @@ import axios from "axios";
 //style
 import "./Transfer.scss";
 import Header from "../../Components/Header/Header.jsx";
+import Footer from "../../Components/Footer/Footer.jsx";
 
 const Transfer = () => {
   const location = useLocation();
@@ -298,6 +299,7 @@ const Transfer = () => {
           </>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

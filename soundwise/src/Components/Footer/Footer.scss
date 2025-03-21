@@ -1,0 +1,36 @@
+@use "../../Style/Partials/screen-breakpoints" as *;
+@use "../../Style/Partials/font-mixins" as *;
+@use "../../Style/Partials/colors" as *;
+
+.footer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  @include font-body;
+  color: white;
+  font-size: 10px;
+
+
+
+  &__github {
+    @include font-body;
+    color: white;
+   align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    &__logo {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+
+    }
+
+    &--link {
+      text-decoration: none;
+      color: white;
+    }
+  }
+}

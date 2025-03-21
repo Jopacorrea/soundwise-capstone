@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.jsx";
+
+//components
 import Header from "../../Components/Header/Header.jsx";
+import Footer from "../../Components/Footer/Footer.jsx";
 
 //style
 import "./Auth.scss";
@@ -196,6 +199,7 @@ const Auth = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
