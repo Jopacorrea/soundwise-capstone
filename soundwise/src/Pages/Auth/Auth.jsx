@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.jsx";
+import Header from "../../Components/Header/Header.jsx";
 
 //style
 import "./Auth.scss";
@@ -138,6 +139,7 @@ const Auth = () => {
 
   return (
     <div className="auth">
+      <Header />
       <h1 className="auth__title">Connect Your Music Services</h1>
 
       <div className="auth__services-box">
