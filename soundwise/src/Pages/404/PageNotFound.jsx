@@ -10,12 +10,14 @@ import "./PageNotFound.scss";
 
 function PageNotFound() {
   return (
-    <div >
+    <div className="page-not-found">
       <Header />
-      <h1>404</h1>
-      <Link to="/">
-        <button>Return Home</button>
-      </Link>
+      <div className="page-not-found__main">
+        <h1 className="page-not-found__title">404</h1>
+        <Link to="/" className="page-not-found__return">
+          <div >start transfering now</div>
+        </Link>
+      </div>
 
       <Footer />
     </div>

@@ -2,9 +2,6 @@
 @use "../../Style/Partials/font-mixins" as *;
 @use "../../Style/Partials/_colors" as *;
 
-* {
-  border: solid 1px red;
-}
 .auth {
   display: flex;
   flex-direction: column;
