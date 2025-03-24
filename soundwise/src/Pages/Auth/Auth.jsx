@@ -60,7 +60,8 @@ const Auth = () => {
       }
 
       // Fetch the Apple Music Developer token from the backend
-      const response = await axios.get("http://localhost:8888/apple/token");
+      const response = await axios.get("https://soundwise-backend-capstone.onrender.com/apple/token");
+      
       const developerToken = response.data.appleToken;
 
       if (!developerToken) {
@@ -129,7 +130,7 @@ const Auth = () => {
   };
   // Handle Spotify login button click
   const handleSpotifyLogin = () => {
-    window.location.href = "http://localhost:8888/spotify/login";
+    window.location.href = "https://soundwise-backend-capstone.onrender.com/spotify/login";
   };
 
   // Redirect to playlists when both authenticated

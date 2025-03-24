@@ -172,7 +172,7 @@ const Transfer = () => {
       console.log("Sending transfer request with", trackData.length, "tracks");
 
       const response = await axios.post(
-        "http://localhost:8888/apple/transfer",
+        "https://soundwise-backend-capstone.onrender.com/apple/transfer",
         {
           playlist: {
             name: playlist.name,

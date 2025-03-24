@@ -22,7 +22,7 @@ const Playlists = () => {
       try {
         let allPlaylists = [];
         let nextUrl =
-          "http://localhost:8888/spotify/playlists?limit=50&offset=0";
+          "https://soundwise-backend-capstone.onrender.com/spotify/playlists?limit=50&offset=0";
 
         while (nextUrl) {
           console.log("Fetching playlists from:", nextUrl);
@@ -42,7 +42,7 @@ const Playlists = () => {
 
             // Check if there's a next page
             nextUrl = data.next
-              ? `http://localhost:8888/spotify/playlists?limit=50&offset=${allPlaylists.length}`
+              ? `https://soundwise-backend-capstone.onrender.com/spotify/playlists?limit=50&offset=${allPlaylists.length}`
               : null;
           } else {
             console.error("Error: Invalid playlist data format.");
