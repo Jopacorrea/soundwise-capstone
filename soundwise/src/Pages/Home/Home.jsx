@@ -9,7 +9,7 @@ function Home() {
   return (
     <div className="home-component">
       <img
-        src="/images/Soundwise_Logo.png"
+        src="/images/SoundWise_Logo.png"
         alt="Soundwise logo"
         className="home-component__logo"
       />
