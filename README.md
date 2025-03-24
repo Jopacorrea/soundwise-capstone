@@ -1,6 +1,6 @@
 # SoundWise Music Transfer App
 
-<p align="center"><img src="./README assets/SoundWise_Logo.png" width="350"></p>
+<p align="center"><img src="./README assets/sw-logo.png" width="350"></p>
 
 ## Overview
 
@@ -34,8 +34,8 @@ In other words, anyone who uses a music streaming service and values playlist co
 - **Frontend:** React (Vite)
 - **Backend:** Node.js with Express
 - **Authentication:** OAuth (Spotify, Apple Music API + MusicKit JS)
-- **Libraries:** Axios (for making API requests), dotenv (for managing environment variables), Sass(for styling)
-- **Hosting:** Heroku or Netlify.
+- **Libraries:** Axios (for making API requests), dotenv (for managing environment variables), React-Router-Dom(dynamic routing in a web app), Sass(for styling)
+- **Hosting:** Render (Static Page for Frontend and Web Service for Backend).
 
 ### APIs
 
@@ -64,6 +64,7 @@ In other words, anyone who uses a music streaming service and values playlist co
 <img src="./README assets/SoundWise_preview.png">
 <img src="./README assets/SoundWise_Transfer.png">
 
+
 ### Data
 
 **User Data:** Stores authentication tokens for Spotify and Apple Music accounts.
@@ -72,13 +73,17 @@ In other words, anyone who uses a music streaming service and values playlist co
 
 ### Endpoints
 
-    POST /auth: Authenticate user
+    GET spotify/login Redirect to Spotify OAuth page
 
-    GET /playlists: Retrieve user playlists
+    GET spotify/callback Redirect to frontend with access token in URL
 
-    POST /transfer: Initiate playlist transfer
+    GET spotify/playlists Retrieve user playlists from spotify - after authenticated
 
-    GET /summary: Check transfer progress
+    GET spotify/playlists/:playlisID/tracks Fetch the actual tracks from the selected playlist
+
+    GET apple/token Generate Apple Music token (developer token)
+
+    POST apple/transfer Create Playlist on Apple Music 
 
 
 ## Roadmap
@@ -125,10 +130,20 @@ _Sprint Breakdown (2 Weeks)_
 
 **Transfer from Apple Music to Spotify:** Create the reverse flow to better coverage of users demand.
 
-
-## Deployed Front-End
+# Deployed Frontend
 https://soundwise-capstone.onrender.com
 
-<p align="center">
-    <img src="./README assets/SoundWise_Banner.png" width="500">
-</p>
+# Deployed Backend
+https://soundwise-backend-capstone.onrender.com
+
+### Final Version
+
+<img src="./README assets/soundwise-home.png">
+<img src="./README assets/soundwise-auth.png">
+<img src="./README assets/soundwise-spotify.png">
+<img src="./README assets/soundwise-spotify-connected.png">
+<img src="./README assets/soundwise-apple.png">
+<img src="./README assets/soundwise-playlists.png">
+<img src="./README assets/soundwise-transfering.png">
+<img src="./README assets/soundwise-complete.png">
+<img src="./README assets/soundwise-apple-complete.png">

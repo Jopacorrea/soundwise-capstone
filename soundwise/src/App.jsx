@@ -1,8 +1,7 @@
 // App.jsx
 // npm libraries
 import React, { useEffect, useRef } from "react";
-//import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HashRouter as Router, Routes, Route, HashRouter } from 'react-router-dom';
+import { HashRouter as  Routes, Route, HashRouter } from 'react-router-dom';
 
 // components
 import { AuthProvider } from "./Context/AuthContext";
