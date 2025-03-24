@@ -26,7 +26,7 @@ function Summary() {
           onClick={() => window.open("itmss://music.apple.com/")}
         >
           <img
-            src="./src/assets/images/AppleMusic.png"
+            src="/images/AppleMusic.png"
             alt="apple music logo"
             className="apple-music__logo"
           />

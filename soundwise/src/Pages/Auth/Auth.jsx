@@ -150,7 +150,7 @@ const Auth = () => {
           <p className="auth__subtitle">1º Connect to your Spotify</p>
           <div className="spotify-auth">
             <img
-              src="./src/assets/images/Spotify.png"
+              src="/images/Spotify.png"
               alt="spotify logo"
               className="spotify-auth__logo"
             />
@@ -175,7 +175,7 @@ const Auth = () => {
           <p className="auth__subtitle">2º Connect to your Apple Music</p>
           <div className="apple-music">
             <img
-              src="./src/assets/images/AppleMusic.png"
+              src="/images/AppleMusic.png"
               alt="apple music logo"
               className="apple-music__logo"
             />

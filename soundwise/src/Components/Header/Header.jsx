@@ -14,7 +14,7 @@ function Header() {
     <div>
       <Link to="/" className="header__logo" onClick={() => handleCleanCache()}>
         <img
-          src="./src/assets/images/Soundwise_Logo.png"
+          src="/images/Soundwise_Logo.png"
           alt="Soundwise logo"
           className="header__logo"
         />

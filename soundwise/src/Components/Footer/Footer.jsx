@@ -10,7 +10,7 @@ function Footer() {
         </div>
       <div className="footer__github">
         <img
-          src="./src/assets/icons/Github_Icon.png"
+          src="/icons/Github_Icon.png"
           className="footer__github__logo"
         />
         <a
