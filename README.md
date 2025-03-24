@@ -113,9 +113,9 @@ _Sprint Breakdown (2 Weeks)_
 
 - [x] **Day 12** _Conduct full integration testing and fix bugs_
 
-- [ ] **Day 13** _Final UI enhancements and prepare for demo_
+- [x] **Day 13** _Final UI enhancements and prepare for demo_
 
-- [ ] **Day 14** _Final testing, documentation, and deployment_
+- [x] **Day 14** _Final testing, documentation, and deployment_
 
 - [x] **Mobile app version:** Create a mobile-responsive version of the app for ease of use on phones and tablets.
 
@@ -125,6 +125,9 @@ _Sprint Breakdown (2 Weeks)_
 
 **Transfer from Apple Music to Spotify:** Create the reverse flow to better coverage of users demand.
 
+
+## Deployed Front-End
+https://soundwise-capstone.onrender.com
 
 <p align="center">
     <img src="./README assets/SoundWise_Banner.png" width="500">
