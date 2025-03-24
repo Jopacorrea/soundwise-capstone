@@ -8,7 +8,7 @@ function Home() {
   return (
     <div className="home-component">
       <img
-        src="./src/assets/images/Soundwise_Logo.png"
+        src="/assets/images/Soundwise_Logo.png"
         className="home-component__logo"
       />
       <h1 className="home-component__title">SoundWise</h1>
