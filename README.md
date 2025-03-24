@@ -133,14 +133,16 @@ _Sprint Breakdown (2 Weeks)_
 
 **Transfer from Apple Music to Spotify:** Create the reverse flow to better coverage of users demand.
 
-# Deployed Frontend
+## Deployed Frontend
 https://soundwise-capstone.onrender.com
 
-# Deployed Backend
+### Deployed Backend
 https://soundwise-backend-capstone.onrender.com
 
-### Final Version
+### Minimum requirment to use Soundwise app 🚨
+To use the SoundWise functionalities, the user must hava account with both services (Spotify and Apple Music)
 
+### Final Version
 <img src="./README assets/soundwise-home.png">
 <img src="./README assets/soundwise-auth.png">
 <img src="./README assets/soundwise-spotify.png">
