@@ -2,7 +2,7 @@
 // npm libraries
 import React, { useEffect, useRef } from "react";
 //import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, HashRouter } from 'react-router-dom';
 
 // components
 import { AuthProvider } from "./Context/AuthContext";
@@ -86,7 +86,7 @@ function App() {
 
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <HashRouter>
         <div className="gradient-bg">
           <svg xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -123,7 +123,7 @@ function App() {
           <Route path="/summary" element={<Summary />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
   );
 }
