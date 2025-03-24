@@ -24,7 +24,7 @@ In other words, anyone who uses a music streaming service and values playlist co
 - _Playlist Transfer_ - Seamlessly transfer playlists from Spotify to Apple Music.
 - _Music Preview_ – Preview playlists and their contents before initiating a transfer.
 - _Progress Indicator_ – A real-time progress displays the status of the playlist transfer.
-- _Sunnary_ – Give the status of the process and allows user to redirect to Apple Music.
+- _Summary_ – Give the status of the process and allows user to redirect to Apple Music.
 
 ## Implementation
 
