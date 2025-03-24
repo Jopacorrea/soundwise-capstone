@@ -23,9 +23,8 @@ In other words, anyone who uses a music streaming service and values playlist co
 - _User Authentication_ – Users can securely authenticate with Spotify and Apple Music.
 - _Playlist Transfer_ - Seamlessly transfer playlists from Spotify to Apple Music.
 - _Music Preview_ – Preview playlists and their contents before initiating a transfer.
-- _Error Handling_ – The app notifies users if any songs are unavailable on the target platform.
-- _Progress Indicator_ – A real-time progress bar displays the status of the playlist transfer.
-- _History Tracking_ - Users can view past transfer attempts, including success and failure statuses.
+- _Progress Indicator_ – A real-time progress displays the status of the playlist transfer.
+- _Sunnary_ – Give the status of the process and allows user to redirect to Apple Music.
 
 ## Implementation
 
@@ -127,6 +126,10 @@ _Sprint Breakdown (2 Weeks)_
 ## Future Implementations
 
 **Multiple Playlist Transfers:** Allow users to select and transfer multiple playlists at once.
+
+**Error Handling:** The app notifies users if any songs are unavailable on the target platform.
+
+**History Tracking:** Users can view past transfer attempts, including success and failure statuses.
 
 **Transfer from Apple Music to Spotify:** Create the reverse flow to better coverage of users demand.
 
